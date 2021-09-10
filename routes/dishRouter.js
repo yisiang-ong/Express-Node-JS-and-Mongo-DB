@@ -5,7 +5,8 @@ const mongoose = require('mongoose');
 const Dishes = require('../models/dishes');
 
 const dishRouter = express.Router();
-//use bodyParser to deal with res.setBody
+
+//use bodyParser to set up res.body
 dishRouter.use(bodyParser.json());
 
 dishRouter.route('/')
