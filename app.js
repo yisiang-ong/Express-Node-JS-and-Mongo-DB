@@ -5,6 +5,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
 var FileStore = require('session-file-store')(session);
+var passport = require('passport');
+var authenticate = require('./authenticate');
+var config = require('./config');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -16,7 +19,7 @@ var leaderRouter = require('./routes/leaderRouter');
 const mongoose = require('mongoose');
 const Dishes = require('./models/dishes');
 
-const url = 'mongodb://localhost:27017/conFusion';
+const url = config.mongoUrl;
 const connect = mongoose.connect(url);
 
 // establish connection to the mongoose server in 3. mongodb
@@ -36,40 +39,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //app.use(cookieParser('12345-67890-09876-54321'));
 
-app.use(session({
-  name: 'session-id',
-  secret: '12345-67890-09876-54321',
-  saveUninitialized: false,
-  resave: false,
-  store: new FileStore()
-}));
+
+//use passport after session initiated, passport will serialize user information and store it in session after login success
+app.use(passport.initialize());
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-function auth (req, res, next) {
-  console.log(req.session);
 
-  if(!req.session.user) {
-      var err = new Error('You are not authenticated!');
-      err.status = 403;
-      return next(err);
-  }
-  else {
-    if (req.session.user === 'authenticated') {
-      next();
-    }
-    else {
-      var err = new Error('You are not authenticated!');
-      err.status = 403;
-      return next(err);
-    }
-  }
-}
 //go through authorization phase before the middleware can access.
-app.use(auth);
+//app.use(auth);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+//use the verifyuser in authentication.js within each router
 app.use('/dishes',dishRouter);
 app.use('/promotions',promoRouter);
 app.use('/leaders',leaderRouter);
