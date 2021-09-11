@@ -48,3 +48,16 @@ exports.jwtPassport = passport.use(new JwtStrategy(opts,
 
 //use the jwt strategy to authenticate
 exports.verifyUser = passport.authenticate('jwt', {session: false});
+
+//create verifyAdmin function
+exports.verifyAdmin = function(req,res,next) {
+    if (!req.user.admin) {
+        var err = new Error('You are not an admin!');
+        res.setHeader('WWW-Authenticate', 'Basic');      
+        err.status = 403;
+        return next(err);
+    }
+    else{
+        return next();
+    }
+}
