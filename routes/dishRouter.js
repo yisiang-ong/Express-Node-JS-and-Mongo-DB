@@ -218,7 +218,7 @@ dishRouter.route('/:dishId/comments/:commentId')
             err.status = 404;
             return next(err);
         }
-        else if (!id1.equals(id2)) {
+        else if (id1.equals(id2) == false) {
             err = new Error('You are not authorized to change this comment!');
             err.status = 403;
             return next(err);
@@ -256,7 +256,7 @@ dishRouter.route('/:dishId/comments/:commentId')
             err.status = 404;
             return next(err);
         }
-        else if (!id1.equals(id2)) {
+        else if (!id1.equals(id2) == false) {
             err = new Error('You are not authorized to delete this comment!');
             err.status = 403;
             return next(err);
