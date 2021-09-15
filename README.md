@@ -1,4 +1,4 @@
-# Course project for Server-side Development with NodeJS, Express and MongoDB in cCOURSERA by THE HONG KONG UNIVERSITY OF SCIENCE AND TECHNOLOGY
+# Course project for Server-side Development with NodeJS, Express and MongoDB in COURSERA by THE HONG KONG UNIVERSITY OF SCIENCE AND TECHNOLOGY
   Course module included:
   1. Node and HTTP
   2. Introduction to Express and Express generator
